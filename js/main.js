@@ -1,6 +1,10 @@
 //Obtener inventario desde localStorage o JSON
 
 async function obtenerInventario() {
+
+    const mensaje = document.getElementById("mensaje");
+    mensaje.textContent = "Cargando guitarras...";
+
     try {
         const inventarioGuardado = localStorage.getItem("inventario");
 
@@ -24,44 +28,15 @@ async function obtenerInventario() {
         console.error("Error al obtener el inventario");
 
         return [];
+
+    } finally {
+        mensaje.textContent = "";
     }
 }
 
-// // Recuperar inventario desde localStorage
-
-// const inventarioGuardado = JSON.parse(localStorage.getItem("inventario"));
-
-// const inventario = inventarioGuardado ?? inventarioInicial;
-
-// if (inventarioGuardado === null) {
-//     localStorage.setItem("inventario", JSON.stringify(inventarioInicial));
-// }
-
-// //Guitarras disponibles
-
-// const guitarrasDisponibles = inventario.filter(guitarra => guitarra.stock > 0);
-
-// Recuperar carrito desde localStorage
 
 const carrito = JSON.parse(localStorage.getItem("carrito")) ?? [];
 
-// // Buscar guitarra por marca o modelo
-
-// const inputBusqueda = document.getElementById("busqueda");
-
-// inputBusqueda.addEventListener("input", () => {
-
-//     const textoBusqueda = inputBusqueda.value.toLowerCase();
-
-//     const guitarrasFiltradas = guitarrasDisponibles.filter(guitarra =>
-//         guitarra.marca.toLowerCase().includes(textoBusqueda) ||
-//         guitarra.modelo.toLowerCase().includes(textoBusqueda)
-//     );
-
-//     imprimirGuitarrasEnHTML(guitarrasFiltradas);
-// });
-
-// Mostrar guitarras en el HTML
 
 function imprimirGuitarrasEnHTML(lista) {
 
@@ -106,11 +81,7 @@ function imprimirGuitarrasEnHTML(lista) {
     });
 }
 
-// Mostrar guitarras disponibles al cargar la página
-
-// imprimirGuitarrasEnHTML(guitarrasDisponibles);
-
-//* Iniciar tienda
+// Iniciar tienda
 
 async function iniciarTienda() {
 

@@ -13,106 +13,50 @@ class Guitarra {
     }
 }
 
-// Guitarras precargadas
+//Obtener inventario desde localStorage o JSON
 
-const guitarra1 = new Guitarra("Fender", "Stratocaster", 1996, 700, 102, 20);
-const guitarra2 = new Guitarra("Gibson", "Les Paul", 1960, 1200, 103, 14);
-const guitarra3 = new Guitarra("Ibanez", "AR Standard", 2001, 650, 104, 0);
-const guitarra4 = new Guitarra("PRS", "Custom 24", 2018, 1500, 105, 0);
-const guitarra5 = new Guitarra("Epiphone", "Casino", 1965, 850, 106, 12);
-const guitarra6 = new Guitarra("Fender", "Telecaster", 2010, 900, 107, 8);
+async function obtenerInventario() {
 
-const inventarioInicial = [
-    guitarra1,
-    guitarra2,
-    guitarra3,
-    guitarra4,
-    guitarra5,
-    guitarra6,
-];
+    const mensaje = document.getElementById("mensaje");
+    mensaje.textContent = "Cargando guitarras...";
 
-// Recuperar inventario desde localStorage
+    try {
+        const inventarioGuardado = localStorage.getItem("inventario");
 
-const inventarioGuardado = JSON.parse(localStorage.getItem("inventario"));
+        if (inventarioGuardado) {
+            return JSON.parse(inventarioGuardado);
+        }
 
-let inventario = inventarioGuardado ?? inventarioInicial;
+        const respuesta = await fetch("../data/guitarras.json");
 
-if (inventarioGuardado === null) {
-    localStorage.setItem("inventario", JSON.stringify(inventarioInicial));
+        if (!respuesta.ok) {
+            throw new Error("No se pudo cargar el inventario");
+        }
+
+        const datos = await respuesta.json();
+
+        localStorage.setItem("inventario", JSON.stringify(datos));
+
+        return datos;
+
+    } catch (error) {
+        console.error("Error al obtener el inventario");
+
+        return [];
+
+    } finally {
+        mensaje.textContent = "";
+    }
 }
+
+let inventario = [];
+let siguienteId;
 
 // Guardar inventario en localStorage
 
 function guardarInventario() {
     localStorage.setItem("inventario", JSON.stringify(inventario));
 }
-
-// Id para nuevas guitarras
-
-let siguienteId = 108;
-
-for (let i = 0; i < inventario.length; i++) {
-    if (inventario[i].id >= siguienteId) {
-        siguienteId = inventario[i].id + 1;
-    }
-}
-
-
-// Mostrar guitarras en el HTML
-
-function imprimirGuitarrasEnHTML(lista) {
-
-    const contenedorGuitarras = document.getElementById("contenedor-guitarras");
-
-    contenedorGuitarras.innerHTML = "";
-
-    lista.forEach(guitarra => {
-
-        const { id, marca, modelo, anio, precio, stock } = guitarra;
-
-        const card = document.createElement("article");
-
-        card.classList.add("card");
-
-        card.innerHTML = `
-            <p>ID: ${id}</p>
-            <p>Marca: ${marca}</p>
-            <h3>Modelo: ${modelo}</h3>
-            <p>Año de fabricación: ${anio}</p>
-            <p>Precio: $${precio}</p>
-            <p>Stock: ${stock}</p>
-
-            <button class="card-boton">
-                Eliminar guitarra
-            </button>
-        `;
-
-        contenedorGuitarras.appendChild(card);
-
-        // Boton eliminar guitarra
-
-        const btnEliminar = card.querySelector(".card-boton");
-        btnEliminar.addEventListener("click", () => {
-
-            const indice = inventario.indexOf(guitarra);
-
-            inventario.splice(indice, 1);
-
-            guardarInventario();
-
-            const mensaje = document.getElementById("mensaje");
-
-            mensaje.textContent =
-                "Se eliminó " + guitarra.marca + " " + guitarra.modelo + " correctamente.";
-
-            imprimirGuitarrasEnHTML(inventario);
-        });
-    });
-}
-
-// Mostrar el inventario al cargar la pagina
-
-imprimirGuitarrasEnHTML(inventario);
 
 // Agregar una nueva guitarra desde el formulario
 
@@ -181,20 +125,93 @@ function obtenerGuitarraDelForm() {
     });
 }
 
-obtenerGuitarraDelForm();
+// Iniciar gestión de inventario
 
-// Buscar guitarra por marca o modelo
+async function iniciarGestion() {
 
-const inputBusqueda = document.getElementById("busqueda");
+    inventario = await obtenerInventario();
 
-inputBusqueda.addEventListener("input", () => {
+    siguienteId = 108;
 
-    const textoBusqueda = inputBusqueda.value.toLowerCase();
+    for (let i = 0; i < inventario.length; i++) {
+        if (inventario[i].id >= siguienteId) {
+            siguienteId = inventario[i].id + 1;
+        }
+    }
 
-    const guitarrasFiltradas = inventario.filter(guitarra =>
-        guitarra.marca.toLowerCase().includes(textoBusqueda) ||
-        guitarra.modelo.toLowerCase().includes(textoBusqueda)
-    );
+    imprimirGuitarrasEnHTML(inventario);
 
-    imprimirGuitarrasEnHTML(guitarrasFiltradas);
-});
+    obtenerGuitarraDelForm();
+
+    // Buscar guitarra por marca o modelo
+
+    const inputBusqueda = document.getElementById("busqueda");
+
+    inputBusqueda.addEventListener("input", () => {
+
+        const textoBusqueda = inputBusqueda.value.toLowerCase();
+
+        const guitarrasFiltradas = inventario.filter(guitarra =>
+            guitarra.marca.toLowerCase().includes(textoBusqueda) ||
+            guitarra.modelo.toLowerCase().includes(textoBusqueda)
+        );
+
+        imprimirGuitarrasEnHTML(guitarrasFiltradas);
+    });
+}
+
+iniciarGestion();
+
+// Mostrar guitarras en el HTML
+
+function imprimirGuitarrasEnHTML(lista) {
+
+    const contenedorGuitarras = document.getElementById("contenedor-guitarras");
+
+    contenedorGuitarras.innerHTML = "";
+
+    lista.forEach(guitarra => {
+
+        const { id, marca, modelo, anio, precio, stock } = guitarra;
+
+        const card = document.createElement("article");
+
+        card.classList.add("card");
+
+        card.innerHTML = `
+            <p>ID: ${id}</p>
+            <p>Marca: ${marca}</p>
+            <h3>Modelo: ${modelo}</h3>
+            <p>Año de fabricación: ${anio}</p>
+            <p>Precio: $${precio}</p>
+            <p>Stock: ${stock}</p>
+
+            <button class="card-boton">
+                Eliminar guitarra
+            </button>
+        `;
+
+        contenedorGuitarras.appendChild(card);
+
+        // Boton eliminar guitarra
+
+        const btnEliminar = card.querySelector(".card-boton");
+        btnEliminar.addEventListener("click", () => {
+
+            const indice = inventario.indexOf(guitarra);
+
+            inventario.splice(indice, 1);
+
+            guardarInventario();
+
+            const mensaje = document.getElementById("mensaje");
+
+            mensaje.textContent =
+                "Se eliminó " + guitarra.marca + " " + guitarra.modelo + " correctamente.";
+
+            imprimirGuitarrasEnHTML(inventario);
+        });
+    });
+}
+
+
