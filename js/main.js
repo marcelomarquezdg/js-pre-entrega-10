@@ -74,9 +74,16 @@ function imprimirGuitarrasEnHTML(lista) {
 
             localStorage.setItem("carrito", JSON.stringify(carrito));
 
-            const mensaje = document.getElementById("mensaje");
-
-            mensaje.textContent = "Se agregó " + marca + " " + modelo + " al carrito.";
+            Toastify({
+                text: "Se agregó " + marca + " " + modelo + " al carrito.",
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                close: true,
+                style: {
+                    background: "#18a81f"
+                }
+            }).showToast();
         });
     });
 }
