@@ -1,0 +1,201 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style-type: none;
+}
+
+body {
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  font-family: Arial, sans-serif;
+  background-color: #f7f7f7;
+}
+
+/* Header y navegación */
+
+header {
+  background-color: #111;
+  padding: 14px 20px;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+nav a {
+  color: white;
+  font-weight: 600;
+}
+
+nav a:hover {
+  color: #cccccc;
+}
+
+/* Contenido principal */
+
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 30px 20px;
+}
+
+main h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+main h2 {
+  text-align: center;
+}
+
+/* Productos */
+
+.productos {
+  width: 100%;
+  max-width: 90vw;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background-color: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Botones */
+
+.card-boton {
+  width: 100%;
+  margin-top: 14px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  background-color: #111;
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.card-boton:hover {
+  background-color: #333;
+  transform: translateY(-1px);
+}
+
+.card-boton:active {
+  transform: translateY(0);
+}
+
+.card-boton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Buscador */
+
+.seccion-busqueda {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.seccion-busqueda input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+/* Formulario de gestión */
+
+.seccion-formulario {
+  width: 100%;
+  max-width: 400px;
+  margin: 40px auto;
+}
+
+.seccion-formulario h2 {
+  margin-bottom: 20px;
+}
+
+.form-guitarra {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-guitarra input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+/* Footer */
+
+footer {
+  padding: 10px;
+  text-align: center;
+  background-color: #111;
+  color: white;
+}
+
+/* Popup promocional */
+
+.popup-promocion {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup-contenido {
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+}
+
+.popup-contenido h2 {
+  margin-bottom: 10px;
+}
+
+.popup-contenido button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #111;
+  color: white;
+  cursor: pointer;
+}
+
+.popup-contenido button:hover {
+  background-color: #333;
+}

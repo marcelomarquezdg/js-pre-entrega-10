@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda de guitarras - Home</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/main.js" defer></script>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <a href="./index.html">Inicio</a>
+            <a href="./pages/carrito.html">Carrito</a>
+            <a href="./pages/gestion.html">Gestión</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Tienda de guitarras de Marcelo</h1>
+
+
+        <section class="seccion-busqueda">
+            <h2>Buscar guitarras</h2>
+
+            <label for="busqueda">Buscar por marca o modelo</label>
+            <input type="text" id="busqueda" placeholder="Ej: Fender o Telecaster">
+        </section>
+
+        <section>
+            <h2>Guitarras disponibles</h2>
+            <p id="mensaje"></p>
+            <div id="contenedor-guitarras" class="productos"></div>
+        </section>
+
+        <section id="popup-promocion" class="popup-promocion">
+            <div class="popup-contenido">
+                <h2>Promo especial</h2>
+                <p>10% de descuento en tu segunda guitarra.</p>
+                <button id="cerrar-popup">Cerrar</button>
+            </div>
+        </section>
+
+
+    </main>
+    
+
+    <footer>
+        <p>Tienda de guitarras de Marcelo</p>
+    </footer>
+
+</body>
+
+</html>
