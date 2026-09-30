@@ -88,15 +88,32 @@ calcularTotal();
 const btnVaciarCarrito = document.getElementById("vaciar-carrito");
 
 btnVaciarCarrito.addEventListener("click", () => {
+    Swal.fire({
+        title: "Estás a punto de vaciar tu carrito",
+        text: "Se eliminarán todos los productos agregados. Esta acción no se puede deshacer.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#007c30",
+        confirmButtonText: "Sí, vaciar carrito",
+        cancelButtonText: "Seguir comprando",
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            carrito.length = 0;
 
-    carrito.length = 0;
+            localStorage.setItem("carrito", JSON.stringify(carrito));
 
-    localStorage.setItem("carrito", JSON.stringify(carrito));
+            imprimirCarritoEnHTML(carrito);
+            calcularTotal();
 
-    imprimirCarritoEnHTML(carrito);
-    calcularTotal();
-
-    const mensaje = document.getElementById("mensaje");
-
-    mensaje.textContent = "El carrito se vació correctamente.";
+            Swal.fire({
+                title: "Carrito vaciado",
+                text: "Se eliminaron todos los productos del carrito.",
+                icon: "success",
+                confirmButtonColor: "#2e7d32"
+            });
+        }
+    });
 });
+
