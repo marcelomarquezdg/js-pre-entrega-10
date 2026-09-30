@@ -94,8 +94,6 @@ function obtenerGuitarraDelForm() {
             document.getElementById("input-stock").value
         );
 
-        const mensaje = document.getElementById("mensaje");
-
         //Validacion
 
         if (
@@ -231,8 +229,6 @@ function imprimirGuitarrasEnHTML(lista) {
             inventario.splice(indice, 1);
 
             guardarInventario();
-
-            const mensaje = document.getElementById("mensaje");
 
             Toastify({
                 text: "Se eliminó " + guitarra.marca + " " + guitarra.modelo + " correctamente.",
