@@ -27,6 +27,17 @@ async function obtenerInventario() {
     } catch (error) {
         console.error("Error al obtener el inventario");
 
+        Toastify({
+            text: "No se pudo cargar el inventario.",
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            close: true,
+            style: {
+                background: "#b71c1c"
+            }
+        }).showToast();
+
         return [];
 
     } finally {

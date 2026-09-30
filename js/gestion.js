@@ -42,6 +42,17 @@ async function obtenerInventario() {
     } catch (error) {
         console.error("Error al obtener el inventario");
 
+        Toastify({
+            text: "No se pudo cargar el inventario.",
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            close: true,
+            style: {
+                background: "#b71c1c"
+            }
+        }).showToast();
+
         return [];
 
     } finally {
@@ -94,7 +105,16 @@ function obtenerGuitarraDelForm() {
             inputPrecio <= 0 ||
             inputStock < 0
         ) {
-            mensaje.textContent = "Completá correctamente todos los campos.";
+            Toastify({
+                text: "Completá correctamente todos los campos.",
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                close: true,
+                style: {
+                    background: "#b71c1c"
+                }
+            }).showToast();
             return;
         }
 
@@ -117,8 +137,16 @@ function obtenerGuitarraDelForm() {
 
         imprimirGuitarrasEnHTML(inventario);
 
-        mensaje.textContent =
-            "Se agregó " + inputMarca + " " + inputModelo + " correctamente.";
+        Toastify({
+            text: "Se agregó " + inputMarca + " " + inputModelo + " correctamente.",
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            close: true,
+            style: {
+                background: "#18a81f"
+            }
+        }).showToast();
 
 
         formParaGuitarra.reset();
@@ -206,8 +234,16 @@ function imprimirGuitarrasEnHTML(lista) {
 
             const mensaje = document.getElementById("mensaje");
 
-            mensaje.textContent =
-                "Se eliminó " + guitarra.marca + " " + guitarra.modelo + " correctamente.";
+            Toastify({
+                text: "Se eliminó " + guitarra.marca + " " + guitarra.modelo + " correctamente.",
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                close: true,
+                style: {
+                    background: "#e65100"
+                }
+            }).showToast();
 
             imprimirGuitarrasEnHTML(inventario);
         });
